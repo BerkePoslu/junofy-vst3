@@ -1,6 +1,65 @@
-build/
-cmake-build-*/
-out/
+# macOS
 .DS_Store
-*.xcodeproj/xcuserdata/
-*.xcworkspace/xcuserdata/
+Icon?
+
+# Xcode
+*.xcuserdata
+*.xcschememanagement.plist
+*.mode1v3
+DerivedData/
+build-*
+build/
+
+# Visual Studio
+*.vs
+*.sdf
+*.opensdf
+*.suo
+*.ncb
+*.vcproj.*
+*.db
+*.LSOverride
+ipch/
+
+# Build artifacts
+*.exe
+*.o
+*.obj
+*.dylib
+
+# Packages
+*.pkg
+*.dmg
+*.zip
+
+# IDE
+*.depend
+*.layout
+.vscode/
+
+# Audio samples
+*.wav
+*.mp3
+
+# Copyrighted materials
+resources/106rom/
+docs/manuals/
+docs/factory_preset_recordings/
+docs/datasheets/
+datasheets/
+
+# Website
+docs/website/makefile
+docs/random_edition.html
+docs/edition_images/
+
+# VCF development variants
+Source/DSP/KR106VCFv*.h
+Source/DSP/KR106VCF_*.h
+Source/DSP/_KR106VCF.h
+
+# Analysis output
+peaks/
+
+# iPlug2
+gui/
