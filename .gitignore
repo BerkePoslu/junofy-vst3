@@ -40,6 +40,7 @@ ipch/
 # Audio samples
 *.wav
 *.mp3
+!docs/audio/junofy-demo.mp3
 
 # Copyrighted materials
 resources/106rom/

@@ -10,6 +10,8 @@ A synthesizer plugin emulating the Roland Juno-6, Juno-60, and Juno-106, built w
 
 ![KR-106 Screenshot](docs/website/screenshot.png)
 
+**Demo:** [junofy-demo.mp3](docs/audio/junofy-demo.mp3) (example take from the plugin in FL Studio).
+
 6-voice polyphonic with dual-mode DSP (Juno-60 analog / Juno-106 firmware), per-voice analog variance,
 TPT ladder filter with OTA saturation, ngspice-verified BBD chorus, arpeggiator with DAW sync,
 portamento, and 240 factory presets (112 Juno-60 + 128 Juno-106). Parameter curves calibrated from hardware
