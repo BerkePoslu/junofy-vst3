@@ -1,0 +1,226 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DKR106_COPY_AFTER_BUILD=OFF -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 -DKR106_COPY_AFTER_BUILD=OFF
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Import certificate
+        env:
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+        run: |
+          echo "$APPLE_CERTIFICATE" | base64 --decode > cert.p12
+          security create-keychain -p actions build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p actions build.keychain
+          security import cert.p12 -k build.keychain -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k actions build.keychain
+          rm cert.p12
+
+      - name: List build artifacts
+        run: find build/KR106_artefacts -type f -o -type d | head -80
+
+      - name: Sign plugins
+        run: |
+          ARTS=build/KR106_artefacts
+          if [ -d "$ARTS/Release/VST3" ]; then ARTS="$ARTS/Release"; fi
+          IDENTITY="Developer ID Application"
+          codesign --force --deep --options runtime --sign "$IDENTITY" "$ARTS/AU/Ultramaster KR-106.component"
+          codesign --force --deep --options runtime --sign "$IDENTITY" "$ARTS/VST3/Ultramaster KR-106.vst3"
+          codesign --force --deep --options runtime --sign "$IDENTITY" "$ARTS/CLAP/Ultramaster KR-106.clap"
+          find "$ARTS/LV2/Ultramaster KR-106.lv2" -name '*.dylib' -exec codesign --force --options runtime --sign "$IDENTITY" {} \;
+          codesign --force --deep --options runtime --sign "$IDENTITY" "$ARTS/Standalone/Ultramaster KR-106.app"
+
+      - name: Notarize plugins
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+        run: |
+          ARTS=build/KR106_artefacts
+          if [ -d "$ARTS/Release/VST3" ]; then ARTS="$ARTS/Release"; fi
+          # Create a zip for notarization submission
+          ditto -c -k --keepParent "$ARTS/AU/Ultramaster KR-106.component" notarize-au.zip
+          ditto -c -k --keepParent "$ARTS/VST3/Ultramaster KR-106.vst3" notarize-vst3.zip
+          ditto -c -k --keepParent "$ARTS/CLAP/Ultramaster KR-106.clap" notarize-clap.zip
+          ditto -c -k --keepParent "$ARTS/LV2/Ultramaster KR-106.lv2" notarize-lv2.zip
+          ditto -c -k --keepParent "$ARTS/Standalone/Ultramaster KR-106.app" notarize-app.zip
+          # Submit each for notarization and wait
+          xcrun notarytool submit notarize-au.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_PASSWORD" --wait
+          xcrun notarytool submit notarize-vst3.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_PASSWORD" --wait
+          xcrun notarytool submit notarize-clap.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_PASSWORD" --wait
+          xcrun notarytool submit notarize-lv2.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_PASSWORD" --wait
+          xcrun notarytool submit notarize-app.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_PASSWORD" --wait
+          # Staple the notarization tickets
+          xcrun stapler staple "$ARTS/AU/Ultramaster KR-106.component"
+          xcrun stapler staple "$ARTS/VST3/Ultramaster KR-106.vst3"
+          xcrun stapler staple "$ARTS/CLAP/Ultramaster KR-106.clap"
+          xcrun stapler staple "$ARTS/Standalone/Ultramaster KR-106.app"
+
+      - name: Package
+        run: |
+          mkdir -p pkg
+          ARTS=build/KR106_artefacts
+          if [ -d "$ARTS/Release/VST3" ]; then ARTS="$ARTS/Release"; fi
+          cp -R "$ARTS/AU/Ultramaster KR-106.component" pkg/
+          cp -R "$ARTS/VST3/Ultramaster KR-106.vst3" pkg/
+          cp -R "$ARTS/CLAP/Ultramaster KR-106.clap" pkg/
+          cp -R "$ARTS/LV2/Ultramaster KR-106.lv2" pkg/
+          cp -R "$ARTS/Standalone/Ultramaster KR-106.app" pkg/
+          cp docs/README.md pkg/
+          cd pkg && zip -r ../KR106-macOS.zip .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: KR106-macOS
+          path: KR106-macOS.zip
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DCMAKE_SYSTEM_VERSION=10.0 -DKR106_COPY_AFTER_BUILD=OFF
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Package
+        shell: bash
+        run: |
+          mkdir -p pkg
+          ARTS=build/KR106_artefacts
+          if [ -d "$ARTS/Release/VST3" ]; then ARTS="$ARTS/Release"; fi
+          cp -R "$ARTS/VST3/Ultramaster KR-106.vst3" pkg/
+          cp -R "$ARTS/CLAP/Ultramaster KR-106.clap" pkg/
+          cp -R "$ARTS/LV2/Ultramaster KR-106.lv2" pkg/
+          cp -R "$ARTS/Standalone/Ultramaster KR-106.exe" pkg/
+          cp docs/README.md pkg/
+          cd pkg && 7z a ../KR106-Windows.zip .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: KR106-Windows
+          path: KR106-Windows.zip
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            pkg-config \
+            libasound2-dev \
+            libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev \
+            libfreetype6-dev libfontconfig1-dev \
+            mesa-common-dev libgl-dev
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DKR106_COPY_AFTER_BUILD=OFF
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Package
+        run: |
+          mkdir -p pkg
+          ARTS=build/KR106_artefacts
+          if [ -d "$ARTS/Release/VST3" ]; then ARTS="$ARTS/Release"; fi
+          cp -R "$ARTS/VST3/Ultramaster KR-106.vst3" pkg/
+          cp -R "$ARTS/CLAP/Ultramaster KR-106.clap" pkg/
+          cp -R "$ARTS/LV2/Ultramaster KR-106.lv2" pkg/
+          cp -R "$ARTS/Standalone/Ultramaster KR-106" pkg/
+          cp docs/README.md pkg/
+          cd pkg && zip -r ../KR106-Linux.zip .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: KR106-Linux
+          path: KR106-Linux.zip
+
+  build-linux-arm64:
+    runs-on: ubuntu-24.04-arm
+    container: debian:bookworm
+    steps:
+      - name: Install system tools
+        run: |
+          apt-get update
+          apt-get install -y git cmake g++ pkg-config ca-certificates zip
+
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: |
+          apt-get install -y \
+            libasound2-dev \
+            libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev \
+            libfreetype6-dev libfontconfig1-dev \
+            mesa-common-dev libgl-dev
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DKR106_COPY_AFTER_BUILD=OFF
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Package
+        run: |
+          mkdir -p pkg
+          ARTS=build/KR106_artefacts
+          if [ -d "$ARTS/Release/VST3" ]; then ARTS="$ARTS/Release"; fi
+          cp -R "$ARTS/VST3/Ultramaster KR-106.vst3" pkg/
+          cp -R "$ARTS/CLAP/Ultramaster KR-106.clap" pkg/
+          cp -R "$ARTS/LV2/Ultramaster KR-106.lv2" pkg/
+          cp -R "$ARTS/Standalone/Ultramaster KR-106" pkg/
+          cp docs/README.md pkg/
+          cd pkg && zip -r ../KR106-Linux-arm64.zip .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: KR106-Linux-arm64
+          path: KR106-Linux-arm64.zip
+
+  release:
+    needs: [build-macos, build-windows, build-linux, build-linux-arm64]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/KR106-macOS/KR106-macOS.zip
+            artifacts/KR106-Windows/KR106-Windows.zip
+            artifacts/KR106-Linux/KR106-Linux.zip
+            artifacts/KR106-Linux-arm64/KR106-Linux-arm64.zip
+          generate_release_notes: true
