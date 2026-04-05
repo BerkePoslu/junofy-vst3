@@ -1,0 +1,13 @@
+Junofy
+Copyright (C) 2026 officialjuno
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+DSP engine and patches are derived from Ultramaster KR-106
+(https://github.com/kayrockscreenprinting/ultramaster_kr106),
+Copyright (C) Kayrock and contributors, used under GPLv3.
+
+See LICENSE and THIRD_PARTY_LICENSES for full terms and upstream notices.
