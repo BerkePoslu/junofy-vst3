@@ -1,0 +1,51 @@
+BUILD_DIR = build
+CONFIG   ?= Debug
+
+.PHONY: build run debug reaper clean deps help
+
+build:
+	# Touch .cpp so CMake picks up header-only DSP changes
+	@touch Source/PluginProcessor.cpp Source/JunofyEditor.cpp
+	cmake -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=$(CONFIG)
+	cmake --build $(BUILD_DIR) --config $(CONFIG)
+
+run: build
+	-killall Junofy 2>/dev/null; sleep 0.5
+	open "$(BUILD_DIR)/Junofy_artefacts/$(CONFIG)/Standalone/Junofy.app"
+
+debug: build
+	-killall Junofy 2>/dev/null; sleep 0.5
+	lldb "$(BUILD_DIR)/Junofy_artefacts/$(CONFIG)/Standalone/Junofy.app/Contents/MacOS/Junofy" -- -s
+
+reaper: build
+	@echo "Restarting Reaper with fresh VST cache..."
+	-killall REAPER 2>/dev/null; sleep 1
+	rm -f "$(HOME)/Library/Application Support/REAPER/reaper-vstplugins64.ini"
+	open -a REAPER
+
+clean:
+	rm -rf $(BUILD_DIR)
+
+# Linux: install JUCE build dependencies
+deps:
+	sudo apt-get update
+	sudo apt-get install -y \
+	  libasound2-dev \
+	  libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev \
+	  libfreetype-dev \
+	  libwebkit2gtk-4.1-dev \
+	  mesa-common-dev libgl-dev
+
+help:
+	@echo ""
+	@echo "Junofy (KR-106 engine)"
+	@echo ""
+	@echo "  make build        Build all formats (AU, VST3, LV2, Standalone)"
+	@echo "  make run          Build and launch Standalone (macOS)"
+	@echo "  make debug        Build and launch in lldb debugger"
+	@echo "  make reaper       Build and restart Reaper (macOS)"
+	@echo "  make deps         Install Linux build dependencies (apt)"
+	@echo "  make clean        Remove build directory"
+	@echo ""
+	@echo "  CONFIG=Release make build  — release build"
+	@echo ""
