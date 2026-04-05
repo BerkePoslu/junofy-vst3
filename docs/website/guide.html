@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="favicon.ico">
+<link rel="stylesheet" href="https://use.typekit.net/siv2osi.css">
+<title>Ultramaster KR-106 — User's Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'transducer-condensed', 'Oswald', sans-serif;
+    font-weight: 500;
+    background: #111 url('background.png') center top / cover no-repeat fixed;
+    color: #e8e8e8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 15, 0.82);
+    z-index: 0;
+  }
+
+  .accent-bar, main, footer { position: relative; z-index: 1; }
+
+  .accent-bar {
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(90deg, #ffffff 0%, #ffffff 15%, #cc0000 15%, #cc0000 70%, #2233cc 70%, #2233cc 100%);
+  }
+
+  main {
+    max-width: 960px;
+    width: 100%;
+    padding: 3rem 1.5rem;
+  }
+
+  a { color: #6688ee; text-decoration: none; }
+  a:hover { color: #99aaff; }
+
+  header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  h1 {
+    font-family: 'transducer-extended', sans-serif; font-weight: 900; text-transform: uppercase;
+    font-style: italic;
+    font-size: 2.4rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.4rem;
+  }
+
+  h1 .red { color: #cc0000; }
+  h1 .blue { color: #2233cc; }
+
+  .subtitle {
+    font-family: 'transducer-extended', sans-serif;
+    font-size: 1.05rem;
+    color: #999;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .screenshot {
+    width: 100%;
+    border: 1px solid #333;
+    margin-bottom: 2rem;
+    display: block;
+  }
+
+  h2 {
+    font-family: 'transducer-extended', sans-serif; font-weight: 900; text-transform: uppercase;
+    font-style: italic;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #e8e8e8;
+    margin: 0;
+    padding-bottom: 0;
+  }
+
+  details {
+    margin-top: 0.3rem;
+  }
+
+  summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0;
+  }
+
+  summary::-webkit-details-marker { display: none; }
+
+  summary::before {
+    content: '\25b8';
+    color: #e8e8e8;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  details[open] > summary::before {
+    content: '\25be';
+    color: #e8e8e8;
+  }
+
+  summary h2 {
+    margin: 0;
+  }
+
+  h3 {
+    font-family: 'transducer-extended', sans-serif; font-weight: 900; text-transform: uppercase;
+    font-style: italic;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #e8e8e8;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 1.5rem 0 0.4rem;
+  }
+
+  p, li {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #bbb;
+  }
+
+  ul {
+    margin: 0.5rem 0 1rem 1.5rem;
+  }
+
+  li + li {
+    margin-top: 0.3rem;
+  }
+
+  .controls {
+    column-count: 2;
+    column-gap: 2rem;
+  }
+
+  .control-group {
+    break-inside: avoid;
+    padding: 0.4rem 0;
+  }
+
+  .control-group p {
+    margin-bottom: 0.15rem;
+  }
+
+  kbd {
+    display: inline-block;
+    background: #222;
+    border: 1px solid #444;
+    border-radius: 3px;
+    padding: 0.1rem 0.4rem;
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: #ccc;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.5rem 0 1rem;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    color: #bbb;
+    border-bottom: 1px solid #1e1e1e;
+  }
+
+  th {
+    color: #999;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: #555;
+    font-size: 0.8rem;
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <a href="index.html"><img src="logo.png" width="900" alt="ULTRAMASTER KR-106" style="display:block; margin:0 auto;"></a>
+    <p class="subtitle">User's Guide</p>
+  </header>
+
+  <!-- ============================================================ -->
+  <details>
+  <summary style="flex-wrap: wrap;">
+    <h2>Controls</h2>
+    <img src="screenshot.png" alt="KR-106 interface" class="screenshot" style="margin-top: 0.8rem; pointer-events: none; flex-basis: 100%;">
+  </summary>
+
+  <h3>Slider Tips</h3>
+  <ul>
+    <li>Hold <kbd>Shift</kbd> while dragging for 10x finer control.</li>
+    <li>Hold <kbd>Cmd</kbd> (Mac) or <kbd>Ctrl</kbd> (Windows/Linux) for 100x superfine control.</li>
+    <li>Double-click a slider to type a value directly.</li>
+    <li>Right-click a slider for MIDI Learn.</li>
+  </ul>
+
+  <div class="controls">
+
+    <div class="control-group">
+      <h3>Power &amp; Tuning</h3>
+        <p><strong>Power</strong> Turns the synth on and off. All voices are silenced when off.</p>
+        <p><strong>Tuning</strong> Fine-tune the master pitch up or down.</p>
+    </div>
+
+    <div class="control-group">
+      <h3>Performance</h3>
+        <p><strong>Master Volume</strong> Output level. The red LED indicates clipping.</p>
+        <p><strong>Portamento Rate</strong> Glide speed between notes.</p>
+        <p><strong>Portamento Mode</strong> 3-way switch: Off (polyphonic), Poly I (portamento, last-note priority), Poly II (portamento, low-note priority).</p>
+    </div>
+
+    <div class="control-group">
+      <h3>Bender</h3>
+        <p><strong>Lever</strong> Horizontal pitch bend. Push up to trigger LFO vibrato (mod wheel).</p>
+        <p><strong>DCO / VCF / LFO</strong> Sensitivity sliders control how much the bender affects pitch, filter cutoff, and LFO depth.</p>
+    </div>
+
+    <div class="control-group">
+      <h3>Arpeggiator</h3>
+        <p><strong>Transpose</strong> When lit, clicking a key sets the transpose root instead of playing a note. Click C to reset.</p>
+        <p><strong>Hold</strong> Notes sustain after release. Click a held key again to release it individually.</p>
+        <p><strong>Arpeggio</strong> Activates the arpeggiator. Held notes are arpeggiated automatically.</p>
+        <p><strong>Mode</strong> Up, Up/Down, or Down.</p>
+        <p><strong>Range</strong> 1 octave, 2 octaves, or 3 octaves (Full).</p>
+        <p><strong>Rate</strong> Arpeggio speed.</p>
+    </div>
+
+    <div class="control-group">
+      <h3>LFO</h3>
+        <p><strong>Rate</strong> LFO speed.</p>
+        <p><strong>Delay</strong> Time before LFO fades in after a note is played.</p>
+        <p><strong>Mode</strong> Free-running or key-triggered (LFO resets on each note).</p>
+    </div>
+
+    <div class="control-group">
+      <h3>DCO (Digitally Controlled Oscillator)</h3>
+        <p><strong>LFO</strong> Pitch modulation depth from the LFO (vibrato).</p>
+        <p><strong>PWM</strong> Pulse width modulation depth.</p>
+        <p><strong>PWM Mode</strong> LFO (modulated by LFO), Manual (fixed pulse width from slider), or Envelope.</p>
+        <p><strong>Pulse / Saw / Sub</strong> Toggle oscillator waveforms on or off. Sub is one octave below.</p>
+        <p><strong>Octave</strong> Horizontal switch: 4', 8', or 16' octave range.</p>
+        <p><strong>Sub Level</strong> Sub-oscillator volume.</p>
+        <p><strong>Noise</strong> White noise level mixed into the oscillator.</p>
+    </div>
+
+    <div class="control-group">
+      <h3>HPF (High-Pass Filter)</h3>
+        <p><strong>Freq</strong> 4-position high-pass filter. Removes low-frequency content to thin out the sound.</p>
+    </div>
+
+    <div class="control-group">
+      <h3>VCF (Voltage Controlled Filter)</h3>
+        <p><strong>Freq</strong> Filter cutoff frequency.</p>
+        <p><strong>Res</strong> Resonance. At maximum the filter self-oscillates.</p>
+        <p><strong>Env Polarity</strong> Positive or inverted envelope modulation.</p>
+        <p><strong>Env</strong> How much the envelope opens the filter.</p>
+        <p><strong>LFO</strong> Filter cutoff modulation from the LFO (wah effect).</p>
+        <p><strong>KBD</strong> Keyboard tracking. Higher notes open the filter more.</p>
+    </div>
+
+    <div class="control-group">
+      <h3>VCA (Voltage Controlled Amplifier)</h3>
+        <p><strong>Mode</strong> Gate (organ-style on/off) or Envelope (shaped by ADSR).</p>
+        <p><strong>Level</strong> Overall voice volume before chorus and master output.</p>
+    </div>
+
+    <div class="control-group">
+      <h3>Envelope (ADSR)</h3>
+        <p><strong>Attack</strong> Time to reach full level.</p>
+        <p><strong>Decay</strong> Time to fall from peak to sustain level.</p>
+        <p><strong>Sustain</strong> Level held while the key is down.</p>
+        <p><strong>Release</strong> Time to fade to silence after key release.</p>
+        <p><strong>ADSR Mode</strong> Horizontal switch below the sliders. Left is 60 mode (analog RC envelopes). Right is 106 mode (firmware envelopes).</p>
+    </div>
+
+    <div class="control-group">
+      <h3>Chorus</h3>
+        <p><strong>Off</strong> Bypass chorus.</p>
+        <p><strong>I</strong> Chorus I: subtle, slow modulation.</p>
+        <p><strong>II</strong> Chorus II: wider, faster modulation. Both I and II can be enabled together.</p>
+    </div>
+
+  </div>
+  </details>
+
+  <!-- ============================================================ -->
+  <details>
+  <summary style="flex-wrap: wrap;">
+    <h2>Keyboard</h2>
+    <img src="qwerty_keyboard.png" alt="QWERTY Keyboard" class="screenshot" style="margin-top: 0.8rem; pointer-events: none; flex-basis: 100%;">
+  </summary>
+
+  <p>Click the on-screen keyboard to play notes. Drag across keys for legato.</p>
+
+  <h3>QWERTY Keyboard</h3>
+  <p>When the plugin window has focus, the computer keyboard plays notes in a standard two-octave piano layout. Open <strong>Keyboard Shortcuts</strong> from the right-click menu to see the full mapping.</p>
+  <table>
+    <tr><th>Keys</th><th>Action</th></tr>
+    <tr><td><kbd>Z</kbd> <kbd>X</kbd> <kbd>C</kbd> <kbd>V</kbd> <kbd>B</kbd> <kbd>N</kbd> <kbd>M</kbd> <kbd>,</kbd> <kbd>.</kbd> <kbd>/</kbd></td><td>Lower octave naturals (C D E F G A B C D E)</td></tr>
+    <tr><td><kbd>S</kbd> <kbd>D</kbd> &ensp; <kbd>G</kbd> <kbd>H</kbd> <kbd>J</kbd> &ensp; <kbd>L</kbd> <kbd>;</kbd> <kbd>'</kbd></td><td>Lower octave sharps (C# D# F# G# A# C# D# F#)</td></tr>
+    <tr><td><kbd>Q</kbd> <kbd>W</kbd> <kbd>E</kbd> <kbd>R</kbd> <kbd>T</kbd> <kbd>Y</kbd> <kbd>U</kbd> <kbd>I</kbd> <kbd>O</kbd> <kbd>P</kbd> <kbd>[</kbd> <kbd>]</kbd></td><td>Upper octave naturals (C D E F G A B C D E F G)</td></tr>
+    <tr><td><kbd>2</kbd> <kbd>3</kbd> &ensp; <kbd>5</kbd> <kbd>6</kbd> <kbd>7</kbd> &ensp; <kbd>9</kbd> <kbd>0</kbd> <kbd>-</kbd> <kbd>=</kbd></td><td>Upper octave sharps (C# D# F# G# A# C# D# F# G#)</td></tr>
+    <tr><td><kbd>`</kbd> / <kbd>1</kbd></td><td>Octave down / up</td></tr>
+    <tr><td><kbd>&larr;</kbd> <kbd>&rarr;</kbd></td><td>Cycle scope modes</td></tr>
+    <tr><td><kbd>&uarr;</kbd> <kbd>&darr;</kbd></td><td>Previous / next preset</td></tr>
+    <tr><td><kbd>PgUp</kbd> <kbd>PgDn</kbd></td><td>Skip 8 presets</td></tr>
+    <tr><td><kbd>Enter</kbd></td><td>Open patch selector grid</td></tr>
+  </table>
+  </details>
+
+  <!-- ============================================================ -->
+  <details>
+  <summary style="flex-wrap: wrap;">
+    <h2>Scope</h2>
+    <img src="scope.png" alt="Scope display modes" class="screenshot" style="margin-top: 0.8rem; pointer-events: none; flex-basis: 100%;">
+  </summary>
+
+  <p>The oscilloscope in the upper right. Click to cycle through six display modes. <kbd>&larr;</kbd> <kbd>&rarr;</kbd> arrow keys also cycle forward and backward.</p>
+  <ol start="0">
+    <li><strong>Waveform</strong> Triggered oscilloscope showing the raw audio output.</li>
+    <li><strong>Spectrum</strong> Frequency spectrum analyzer (logarithmic).</li>
+    <li><strong>ADSR</strong> Graphs the current envelope shape in real time.</li>
+    <li><strong>99% Invisible</strong> A 16x8 grid of all 128 presets. Click a cell to load a preset. Drag from a cell and release to launch a bouncing ball that changes presets as it travels. Click the &lt; &gt; buttons at the bottom to cycle scope modes.</li>
+    <li><strong>VCF</strong> Graphs the filter frequency response.</li>
+    <li><strong>About</strong> Version and credits.</li>
+  </ol>
+  </details>
+
+  <!-- ============================================================ -->
+  <details>
+  <summary style="flex-wrap: wrap;">
+    <h2>Patch Bank</h2>
+    <img src="presets.png" alt="Patch Bank" class="screenshot" style="margin-top: 0.8rem; pointer-events: none; flex-basis: 100%;">
+  </summary>
+
+  <p>The KR-106 includes 256 factory presets across two banks. In 106 mode, 128 presets decoded from original Juno-106 factory SysEx data. In 60 mode, 128 presets from the original Juno-60 factory tape backups. Switching modes changes the visible preset bank and sets the display to Manual and remaps sliders so VCF FRQ stays at the same Hz. The current preset name is shown below the scope.</p>
+
+  <h3>Browsing</h3>
+  <p><strong>Left-click</strong> the preset display to open the patch selector, a full grid showing all 128 presets. Click any patch to load it. You can also use the arrow keys or mouse wheel to step through presets.</p>
+
+  <h3>Patch Manager</h3>
+  <p>The database icon to the left of the preset display opens the patch manager menu:</p>
+  <ul>
+    <li><strong>Save Patch</strong> Save the current sound to any slot. A dialog lets you choose the bank (A/B), group (1-8), patch (1-8), and name.</li>
+    <li><strong>Clear Patch</strong> Reset the selected slot to an init patch.</li>
+    <li><strong>Load Patch Bank</strong> Load a CSV patch bank file.</li>
+    <li><strong>Reveal in Finder</strong> Open the preset storage folder.</li>
+  </ul>
+
+  <h3>Right-Click</h3>
+  <p>Right-click the preset display for the same patch manager menu.</p>
+
+  <h3>What's Saved</h3>
+  <p>Presets save all synthesis parameters. Performance controls (Tuning, Transpose, Hold, Arpeggio, Arp Rate, Arp Mode, Arp Range, Portamento) are <em>not</em> saved with presets and persist independently so you can change sounds without interrupting a live performance.</p>
+  </details>
+
+  <!-- ============================================================ -->
+  <details>
+  <summary style="flex-wrap: wrap;">
+    <h2>Settings</h2>
+    <img src="settings.png" alt="Settings" class="screenshot" style="margin-top: 0.8rem; pointer-events: none; flex-basis: 100%;">
+  </summary>
+
+  <p>Click the gear icon or right-click anywhere on the panel background to access these options:</p>
+  <ul>
+    <li><strong>100% / 150% / 200%</strong> Window scale. Your choice is saved between sessions.</li>
+    <li><strong>6 / 8 / 10 Voices</strong> Maximum polyphony. More voices use more CPU.</li>
+    <li><strong>Ignore MIDI Velocity</strong> All notes play at full velocity, like the original hardware.</li>
+    <li><strong>Limit Arp to Keyboard Range</strong> Arpeggio wraps notes back into the 61-key range instead of extending beyond it.</li>
+    <li><strong>Sync Arp to Host</strong> When on, the arpeggiator locks to the DAW's tempo. The Arp Rate slider snaps to note divisions (4 Beats, 2 Beats, Quarter, Quarter Triplet, Eighth, Eighth Triplet, 16th, 16th Triplet, 32nd). Steps align to the beat grid when the transport is playing. When the transport is stopped, the arp free-runs at the tempo-matched rate. If the host does not provide tempo information, sync is silently disabled and the arp falls back to the rate slider. Compatible with LV2 hosts (Jalv/Zynthian) that send transport updates only on state changes.</li>
+    <li><strong>Sync LFO to Host</strong> When on, the LFO rate locks to the DAW's tempo. The LFO Rate slider snaps to note divisions (24 Beats down to 64th Note). The LFO phase resets when the transport starts. When both Arp and LFO are synced, their rates lock to exact multiples of each other.</li>
+    <li><strong>Mono Retrigger</strong> When on (default), every new note in mono mode retriggers the envelope. When off, legato notes glide without retriggering.</li>
+    <li><strong>MIDI Out: SysEx</strong> Selects the MIDI output format. When off (default), the plugin sends standard MIDI CC for parameter changes and Program Change for preset selection. When on, it sends Roland Juno-106 SysEx (IPR for individual parameters, APR for preset dumps). The plugin always <em>receives</em> CC, SysEx, and Program Change regardless of this setting.</li>
+
+    <li><strong>VCF Oversample 2x / 4x</strong> Filter oversampling factor. 4x (default) gives clean self-oscillation tracking up to 20 kHz. 2x uses less CPU but may alias at high cutoff + high resonance.</li>
+    <li><strong>Component Variance</strong> Opens the per-voice variance editor. See below.</li>
+  </ul>
+  </details>
+
+  <!-- ============================================================ -->
+  <details>
+  <summary style="flex-wrap: wrap;">
+    <h2>Component Variance</h2>
+    <img src="component_variance.png" alt="Component Variance Editor" class="screenshot" style="margin-top: 0.8rem; pointer-events: none; flex-basis: 100%;">
+  </summary>
+
+  <p>Real analog polysynths have slight differences between voices due to component tolerances. Each VCF, VCA, and ADSR circuit is built from discrete parts that are never perfectly matched. The variance editor lets you control these per-voice offsets to dial in exactly how much analog character you want.</p>
+
+  <h3>Parameters</h3>
+  <ul>
+    <li><strong>VCF FRQ</strong> Filter cutoff offset in cents (&plusmn;10 cts).</li>
+    <li><strong>DCO FRQ</strong> Oscillator pitch offset in cents (&plusmn;30 cts).</li>
+    <li><strong>ADSR</strong> Envelope timing scale as a percentage (&plusmn;15 pct).</li>
+    <li><strong>VCA</strong> Amplifier gain offset as a percentage (&plusmn;12 pct).</li>
+    <li><strong>PW Lo</strong> Pulse width minimum (around 50 pct).</li>
+    <li><strong>PW Hi</strong> Pulse width maximum (around 95 pct).</li>
+  </ul>
+
+  <h3>Editing</h3>
+  <p>Click a cell to select it, then drag up/down to adjust. Arrow keys also work: up/down to change the value, left/right to move between columns. 100 pixels of drag covers the full range of each parameter.</p>
+
+  <h3>Tune Presets</h3>
+  <ul>
+    <li><strong>Robot Tune</strong> All components at spec. Every voice is identical. Clean and precise.</li>
+    <li><strong>Human Tune</strong> Subtle randomized offsets (1/5 of full range). A well-maintained unit.</li>
+    <li><strong>Out of Tune</strong> Full random variance. A synth that's been sitting in a garage for 40 years.</li>
+  </ul>
+
+  <p>Variance values are saved globally and persist between sessions. On first launch, a deterministic set of offsets is generated to model one specific "hardware unit."</p>
+  </details>
+
+  <!-- ============================================================ -->
+  <details id="midi">
+  <summary style="flex-wrap: wrap;">
+    <h2>MIDI</h2>
+    <img src="midi.png" alt="KR-106 MIDI Learn" class="screenshot" style="margin-top: 0.8rem; pointer-events: none; flex-basis: 100%;">
+  </summary>
+
+  <h3>MIDI Learn</h3>
+  <p><strong>Right-click</strong> any slider to enter MIDI Learn mode. The tooltip shows "MIDI LEARN" and a green border appears around the control. Move any CC on your MIDI controller to assign it. The assignment is saved between sessions.</p>
+  <p>Multiple parameters can share the same CC. For example, assign Decay and Release to the same knob to control both in sync.</p>
+  <p>To reassign, right-click the slider again and send a new CC. Click anywhere else to cancel learn mode.</p>
+
+  <h3>MIDI Mapping</h3>
+  <p>All values 0-127, mapped to the parameter's full range. The UI slider moves to reflect incoming values.
+     The KR-106 accepts both standard MIDI CCs and original Roland Juno-106 SysEx messages (<code>F0 41 32 0n cc vv F7</code>).
+     Pitch bend is received on the standard pitch wheel and reflected in the bender control.
+     If you assign a parameter to a CC via MIDI Learn, the user assignment replaces that parameter's default CC.</p>
+  <table>
+    <tr><th>Parameter</th><th>CC</th><th>SysEx</th><th>Notes</th></tr>
+    <tr><td>LFO Rate</td><td>80</td><td>00</td><td></td></tr>
+    <tr><td>LFO Delay</td><td>81</td><td>01</td><td></td></tr>
+    <tr><td>DCO LFO</td><td>3</td><td>02</td><td></td></tr>
+    <tr><td>DCO PWM</td><td>79</td><td>03</td><td></td></tr>
+    <tr><td>DCO Noise</td><td>13</td><td>04</td><td></td></tr>
+    <tr><td>VCF Frequency</td><td>74</td><td>05</td><td>Standard brightness / cutoff</td></tr>
+    <tr><td>VCF Resonance</td><td>71</td><td>06</td><td>Standard resonance</td></tr>
+    <tr><td>VCF Env Mod</td><td>76</td><td>07</td><td></td></tr>
+    <tr><td>VCF LFO Mod</td><td>77</td><td>08</td><td></td></tr>
+    <tr><td>VCF Keyboard</td><td>78</td><td>09</td><td></td></tr>
+    <tr><td>VCA Level</td><td></td><td>0A</td><td></td></tr>
+    <tr><td>Master Volume</td><td>7</td><td></td><td>Standard channel volume</td></tr>
+    <tr><td>ENV Attack</td><td>73</td><td>0B</td><td>Standard attack time</td></tr>
+    <tr><td>ENV Decay</td><td>75</td><td>0C</td><td>Standard decay time</td></tr>
+    <tr><td>ENV Sustain</td><td>70</td><td>0D</td><td></td></tr>
+    <tr><td>ENV Release</td><td>72</td><td>0E</td><td>Standard release time</td></tr>
+    <tr><td>DCO Sub</td><td>9</td><td>0F</td><td></td></tr>
+    <tr><td>HPF Freq</td><td>12</td><td>11 b3-4</td><td>4-position switch: 0-31=0, 32-63=1, 64-95=2, 96-127=3</td></tr>
+    <tr><td>Portamento Rate</td><td>5</td><td></td><td>Standard portamento time</td></tr>
+    <tr><td>Arp Rate</td><td>82</td><td></td><td></td></tr>
+    <tr><td>Modulation</td><td>1</td><td></td><td>LFO trigger on/off (switch)</td></tr>
+    <tr><td>Hold</td><td>64</td><td></td><td>Sustain pedal (standard)</td></tr>
+  </table>
+
+  <h3>SysEx Switch Bytes</h3>
+  <p>Controls 0x10 and 0x11 are bitmask switch bytes that set multiple parameters at once.</p>
+  <table>
+    <tr><th>Control</th><th>Bit</th><th>Parameter</th><th>Values</th></tr>
+    <tr><td>10</td><td>0</td><td>Octave 16'</td><td>1 = on</td></tr>
+    <tr><td>10</td><td>1</td><td>Octave 8'</td><td>1 = on</td></tr>
+    <tr><td>10</td><td>2</td><td>Octave 4'</td><td>1 = on</td></tr>
+    <tr><td>10</td><td>3</td><td>Pulse</td><td>1 = on</td></tr>
+    <tr><td>10</td><td>4</td><td>Saw</td><td>1 = on</td></tr>
+    <tr><td>10</td><td>5</td><td>Chorus</td><td>0 = on, 1 = off</td></tr>
+    <tr><td>10</td><td>6</td><td>Chorus Level</td><td>0 = II, 1 = I</td></tr>
+    <tr><td>11</td><td>0</td><td>PWM Mode</td><td>0 = LFO, 1 = Manual</td></tr>
+    <tr><td>11</td><td>1</td><td>VCF Env Polarity</td><td>0 = +, 1 = -</td></tr>
+    <tr><td>11</td><td>2</td><td>VCA Mode</td><td>0 = ENV, 1 = GATE</td></tr>
+    <tr><td>11</td><td>3-4</td><td>HPF</td><td>00 = 3, 01 = 2, 10 = 1, 11 = 0</td></tr>
+  </table>
+
+  <h3>SysEx</h3>
+  <p>The KR-106 sends and receives Roland Juno-106 SysEx messages. Enable <strong>MIDI Out: SysEx</strong> in the settings menu to send SysEx output (off by default). When enabled, individual parameter changes are sent as IPR (Individual Parameter) messages: <code>F0 41 32 0n cc vv F7</code> where <code>n</code> is MIDI channel, <code>cc</code> is the control number from the table above, and <code>vv</code> is the value (0-127). When disabled, standard MIDI CC is sent instead. The plugin always receives both CC and SysEx regardless of this setting.</p>
+
+  <h3>APR (All Parameter Report)</h3>
+  <p>In SysEx mode, a full patch dump is emitted on every preset change. In CC mode, a Program Change is sent instead. APR messages can always be received to load a complete patch. The format is 24 bytes:</p>
+  <p><code>F0 41 30 0n pp [16 sliders] [sw1] [sw2] F7</code></p>
+  <ul>
+    <li><code>0n</code> MIDI channel (0-F)</li>
+    <li><code>pp</code> Patch number (0-127)</li>
+    <li>Bytes 5-20: 16 slider values (0-127) in SysEx control order (00-0F from the table above)</li>
+    <li>Byte 21 (sw1): Octave (bits 0-2: 01=16', 02=8', 04=4'), Pulse (bit 3), Saw (bit 4), Chorus off (bit 5), Chorus I (bit 6)</li>
+    <li>Byte 22 (sw2): PWM Manual (bit 0), VCF Env- (bit 1), VCA Gate (bit 2), HPF (bits 3-4: inverted, 00=3, 01=2, 10=1, 11=0)</li>
+  </ul>
+  <p>This is compatible with the original Juno-106 APR format, allowing two KR-106 instances to stay in sync or a hardware Juno-106 to mirror the plugin's state.</p>
+  </details>
+
+  <!-- ============================================================ -->
+  <details>
+  <summary>
+    <h2>60 vs 106 Mode</h2>
+  </summary>
+
+  <p>The KR-106 models both the analog signal path (60 mode) and the firmware-controlled
+     signal path (106 mode). They share the same panel layout and basic architecture, but
+     the internal control paths are fundamentally different. Select the mode with the
+     switch below the ADSR sliders. Each mode has its own bank of 128 factory presets.</p>
+
+  <h3>VCF Frequency</h3>
+  <p><strong>60:</strong> The VCF cutoff slider drives an analog CV that feeds
+     the IR3109 exponential converter directly. The slider-to-frequency curve
+     follows the analog pot taper and expo converter characteristics. Modulation
+     (envelope, LFO, keyboard tracking) sums into the same CV in continuous
+     analog fashion. Range: ~2 Hz to 40 kHz. Keyboard tracking references C1 (32.7 Hz).</p>
+  <p><strong>106:</strong> The slider value is digitized to a 7-bit byte (0-127),
+     scaled to a 14-bit DAC value, and summed with envelope, LFO, and keyboard
+     tracking in integer arithmetic inside the firmware. The result is output
+     through a DAC and smoothed by a 1ms RC filter. The firmware runs a main
+     loop at 238.1 Hz (4.2ms per tick), so the VCF cutoff updates in discrete
+     steps rather than continuously. Range: ~5 Hz to 50 kHz. Keyboard tracking
+     references middle C (MIDI 60).</p>
+  <p>When switching modes, the VCF frequency slider is automatically remapped to
+     preserve the same frequency in Hz on the new curve.</p>
+
+  <h3>Envelope (ADSR)</h3>
+  <p><strong>60:</strong> Pure RC charge/discharge curves from the IR3R01 analog
+     envelope generator. Attack charges toward an overshoot target (1.2x) via
+     an exponential RC curve, giving a natural concave shape. Decay and release
+     are exponential RC discharges. Timing is calibrated from hardware measurements.
+     Range: Attack 1ms-3s, Decay/Release 3ms-22s.</p>
+  <p><strong>106:</strong> The D7811G firmware generates the envelope as a 16-bit
+     integer accumulator, updated at 238.1 Hz. Attack adds a fixed increment
+     per tick, producing a linear ramp. Decay and release
+     use a per-tick multiply (coefficient from a ROM table), giving a
+     staircase-approximated exponential. A 1ms RC output filter smooths the
+     steps. Range: Attack 1ms-3.3s, Decay/Release ~1.5ms-25.5s.</p>
+
+  <h3>Slider Ranges</h3>
+  <p>Several parameters have different effective ranges between modes because the
+     analog circuits and firmware interpret the same slider position differently:</p>
+  <ul>
+    <li><strong>LFO Rate:</strong> 60 uses a circuit model (TA75558S integrator + Schmitt trigger,
+        0.14-21 Hz). 106 uses the firmware's rate table.</li>
+    <li><strong>DCO LFO Depth:</strong> 60 models the 10K shunt-to-ground on a 50K linear pot
+        (analog taper). 106 uses a linear mapping.</li>
+    <li><strong>VCF LFO Depth:</strong> Same difference (analog vs linear).</li>
+    <li><strong>VCF Frequency:</strong> Different slider-to-Hz curves as described above.</li>
+  </ul>
+
+  <h3>Other Differences</h3>
+  <ul>
+    <li><strong>Pulse polarity:</strong> 60 mode has the narrow LOW portion
+        at the start of the ramp. 106 mode's inverted comparator places it at the end.
+        Both produce 50%-97% duty cycle, but the phase relationship with the saw differs.</li>
+    <li><strong>Keyboard tracking:</strong> 60 mode taps the pitch CV (includes octave switch).
+        106 mode uses the raw MIDI note (octave switch does not affect VCF).</li>
+  </ul>
+
+  <h3>Preset Banks</h3>
+  <p>Each mode has its own bank of 128 factory presets. 60 mode includes patches from
+     the original Juno-60 factory tape backups (Bank A: 56 named patches covering
+     strings, brass, keyboards, organs, synth leads, and effects; Bank B: factory tape
+     preset names). 106 mode includes all original Juno-106 patches decoded from factory
+     SysEx data. Switching modes changes the visible preset bank and sets the display
+     to Manual.</p>
+
+  </details>
+</main>
+
+<footer>
+  
+</footer>
+</body>
+</html>
